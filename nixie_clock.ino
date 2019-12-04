@@ -18,9 +18,11 @@ int twoValues(int value);
 void setup() {
   pinMode(CONFIG_BUTTON,INPUT_PULLUP);
   pinMode(NIXIE_BUTTON,INPUT);
-  
+
+  //initial states
   state=CLOCK;
   nixie=HOUR1;
+  
   Serial.begin(9600);
   rtc_begin();
   shiftreg_begin();
