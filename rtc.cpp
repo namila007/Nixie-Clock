@@ -14,3 +14,20 @@ void rtc_getTime(struct ts* t){
   DS3231_get(t);
 }
 
+void  rtc_saveTime(struct ts t) {
+  DS3231_set(t); 
+}
+
+void rtc_setValues(int nixie,struct ts* t,int value){
+  //HOUR NIXIE TUBES
+  if(nixie==0) {
+    t->hour = value;
+  }
+  //MINUTE NIXIE TUBES 
+  else if (nixie==1) {
+    t->min = value;
+  } else {
+    t->sec = value;
+  }
+}
+
