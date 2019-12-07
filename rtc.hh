@@ -8,4 +8,7 @@ void rtc_begin();
 
 void rtc_getTime(struct ts *t);
 
+void rtc_saveTime(struct ts t);
+
+void rtc_setValues(int nixie,struct ts* t,int value);
 #endif // _RTC_H    // Put this line at the end of your file.
