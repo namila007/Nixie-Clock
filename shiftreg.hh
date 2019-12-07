@@ -12,8 +12,10 @@
 
 void shiftreg_begin();
 
-int shiftreg_write(int value);
+void shiftreg_write(int h,int m,int sec);
 
 void shiftreg_clear();
 void Shiftreg_enable(int pin,bool value);
+
+uint8_t intToTwoValues(int value);
 #endif // _shiftreg_H    

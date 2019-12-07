@@ -17,7 +17,6 @@ unsigned long add_bounce_time = 75;
 int addCount =0;
 int maxAddCount=13;
 
-
 void setup() {
   pinMode(CONFIG_BUTTON,INPUT_PULLUP);
   pinMode(NIXIE_BUTTON,INPUT);
@@ -53,24 +52,21 @@ void loop() {
       
     } else {
       rtc_getTime(&rtcTime);
+      Serial.print(rtcTime.hour);
+      Serial.print(":");
+      Serial.print(rtcTime.min);
+      Serial.print(":");
       Serial.println(rtcTime.sec);
-      shiftreg_write(intToTwoValues(rtcTime.hour));
-      shiftreg_write(intToTwoValues(rtcTime.min));
-      shiftreg_write(intToTwoValues(rtcTime.sec));
-      delay(500);
+      Serial.println(intToTwoValues(rtcTime.sec),BIN);
+      
+      shiftreg_write(rtcTime.hour,rtcTime.min,rtcTime.sec);
+     
+      delay(200);
    }
   
 
 }
 
-//dividing 8bit int into 4bits.|XXXX XXXX | XXXX <digit1, XXXX<digit0
-int intToTwoValues(int value) {
-  int digit1 = value/10;
-  int digit0 = value%10;
-  digit0 = digit1<<(4) | digit0;
-  //Serial.println((digit0),BIN);
-  return digit0;
-}
 
 void configButtonInterrupt()
 {
