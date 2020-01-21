@@ -1,6 +1,11 @@
 #include "shiftreg.hh"
 
-byte number[10] = {0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09};
+/** in k155id1 truth table is shifted, 
+ *  so i had to map the integer with previous bin number 
+ *                0    , 1    , 2    , 3    , 4    , 5    , 6    , 7    , 8    , 9      
+**/
+ char knumber[] = {0b00001001,0b00000000,0b00000001,0b00000010,0b00000011,0b00000100,0b00000101,0b00000110,0b00000111,0b00001000};
+
 
 void shiftreg_begin(){
   Serial.println("ShiftReg begin");
@@ -22,12 +27,17 @@ void shiftreg_begin(){
 
 //function to write data to shift register
 
-void shiftreg_write(int h,int m,int sec){
+void shiftreg_write(int sec,int m,int h){
+  //is 12H mode is enabled??
+  h = rtc_12H(h);
+  //clearing first
+   digitalWrite(MASTERCLEAR_PIN,LOW);
+   digitalWrite(MASTERCLEAR_PIN,HIGH);
   //Serial.println(value,BIN);
  digitalWrite(LATCH_PIN, LOW);
-  shiftOut(DATA_PIN, CLOCK_PIN, MSBFIRST, intToTwoValues(h)); 
-  shiftOut(DATA_PIN, CLOCK_PIN, MSBFIRST, intToTwoValues(m)); 
   shiftOut(DATA_PIN, CLOCK_PIN, MSBFIRST, intToTwoValues(sec)); 
+  shiftOut(DATA_PIN, CLOCK_PIN, MSBFIRST, intToTwoValues(m)); 
+  shiftOut(DATA_PIN, CLOCK_PIN, MSBFIRST, intToTwoValues(h)); 
   digitalWrite(LATCH_PIN, HIGH); 
 }
 
@@ -48,7 +58,6 @@ void Shiftreg_enable(int pin,bool value){
 byte intToTwoValues(int value) {
   byte digit1 = value/10;
   byte digit0 = value%10;
-  digit0 = digit1<<(4) | digit0;
+  digit0 = knumber[digit1]<<(4) | knumber[digit0];
   return digit0;
 }
-

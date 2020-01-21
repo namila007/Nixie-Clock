@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include <ds3231.h>
 
+extern bool rtc12HMode;
 void rtc_begin();
 
 void rtc_getTime(struct ts *t);
@@ -11,4 +12,6 @@ void rtc_getTime(struct ts *t);
 void rtc_saveTime(struct ts t);
 
 void rtc_setValues(int nixie,struct ts* t,int value);
+
+uint8_t rtc_12H(uint8_t value);
 #endif // _RTC_H    // Put this line at the end of your file.

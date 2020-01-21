@@ -31,3 +31,11 @@ void rtc_setValues(int nixie,struct ts* t,int value){
   }
 }
 
+
+uint8_t rtc_12H(uint8_t value) {
+   if(rtc12HMode) {
+    if (value%12!=0) return value%12;
+    } 
+   else return value;
+}
+  
